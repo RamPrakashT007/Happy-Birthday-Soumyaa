@@ -410,18 +410,10 @@ noBtn.addEventListener("mouseover", function(){
 
 if(!movedOnce){
 
-// get question box position
-let rect = questionBox.getBoundingClientRect()
+let yesRect = document.getElementById("yes").getBoundingClientRect()
 
-// create small movement area around it
-let minX = rect.left + 20
-let maxX = rect.right - 80
-
-let minY = rect.top + 20
-let maxY = rect.bottom + 40
-
-let x = Math.random() * (maxX - minX) + minX
-let y = Math.random() * (maxY - minY) + minY
+let x = yesRect.left + 120
+let y = yesRect.top + 40
 
 noBtn.style.position = "fixed"
 noBtn.style.left = x + "px"
@@ -480,21 +472,30 @@ function startMicBlowDetection(){
 
 navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
 
-const audioContext=new AudioContext()
-const mic=audioContext.createMediaStreamSource(stream)
-const analyser=audioContext.createAnalyser()
+const audioContext = new AudioContext()
+const mic = audioContext.createMediaStreamSource(stream)
+const analyser = audioContext.createAnalyser()
+
+analyser.fftSize = 256
 
 mic.connect(analyser)
 
-const data=new Uint8Array(analyser.frequencyBinCount)
+const data = new Uint8Array(analyser.fftSize)
 
 function detect(){
 
-analyser.getByteFrequencyData(data)
+analyser.getByteTimeDomainData(data)
 
-let volume=data.reduce((a,b)=>a+b)/data.length
+let sum = 0
 
-if(volume>40){
+for(let i=0;i<data.length;i++){
+let val = (data[i]-128)/128
+sum += val*val
+}
+
+let volume = Math.sqrt(sum/data.length)
+
+if(volume > 0.15){
 blowCandles()
 return
 }
@@ -508,7 +509,6 @@ detect()
 })
 
 }
-
 /* BLOW CANDLES */
 
 function blowCandles(){
