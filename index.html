@@ -37,7 +37,7 @@ letter-spacing:0.5px;
 }
 
 /* BACKGROUNDS */
-.bg1{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg1.jpg");}
+
 .bg2{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg2.jpg");}
 .bg3{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg3.jpg");}
 .bg4{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg4.jpg");}
@@ -404,24 +404,30 @@ document.body.className="bg3"
 }
 
 /* NO BUTTON MOVE */
+let movedOnce = false
 
-let movedOnce=false
-
-noBtn.addEventListener("mouseover",function(){
+noBtn.addEventListener("mouseover", function(){
 
 if(!movedOnce){
 
-let x = Math.random() * (window.innerWidth - 120)
-let y = Math.random() * (window.innerHeight - 120)
+// get question box position
+let rect = questionBox.getBoundingClientRect()
 
-if(x < 50) x = 50
-if(y < 100) y = 100
+// create small movement area around it
+let minX = rect.left + 20
+let maxX = rect.right - 80
 
-noBtn.style.position="absolute"
-noBtn.style.left=x+"px"
-noBtn.style.top=y+"px"
+let minY = rect.top + 20
+let maxY = rect.bottom + 40
 
-movedOnce=true
+let x = Math.random() * (maxX - minX) + minX
+let y = Math.random() * (maxY - minY) + minY
+
+noBtn.style.position = "fixed"
+noBtn.style.left = x + "px"
+noBtn.style.top = y + "px"
+
+movedOnce = true
 
 }
 
