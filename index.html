@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Birthday Surprise</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+
+body{
+font-family:'Poppins',sans-serif;
+text-align:center;
+margin:0;
+color:white;
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+min-height:100vh;
+
+overflow:hidden;
+}
+
+h1{
+font-weight:600;
+font-size:42px;
+letter-spacing:1px;
+}
+
+h2{
+font-weight:500;
+font-size:22px;
+letter-spacing:0.5px;
+}
+
+/* BACKGROUNDS */
+.bg1{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg1.jpg");}
+.bg2{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg2.jpg");}
+.bg3{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg3.jpg");}
+.bg4{background-image:linear-gradient(rgba(0,0,0,.4),rgba(0,0,0,.4)),url("bg4.jpg");}
+
+/* CENTER CONTENT */
+
+#hello,#videoPage,#questionPage,#celebrationPage{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:90%;
+max-width:600px;
+}
+
+/* HELLO */
+#continueBtn{
+margin-top:25px;
+background:#ff5e78;
+color:white;
+}
+
+#countdownCircle{
+margin:30px auto;
+width:120px;
+height:120px;
+border-radius:50%;
+border:6px solid white;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:40px;
+font-weight:bold;
+background:rgba(255,255,255,0.2);
+}
+
+/* VIDEO */
+
+#videoPage{display:none;}
+
+video{
+width:60%;
+max-width:300px;
+border-radius:10px;
+}
+
+/* BUTTONS */
+
+button{
+padding:12px 25px;
+font-size:18px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+}
+
+#yes{
+background:#4CAF50;
+color:white;
+margin:10px;
+opacity: 100%;
+}
+
+#no{
+background:#ff4d4d;
+color:white;
+margin:10px;
+opacity: 100%;
+}
+
+/* MESSAGE LABEL */
+
+#lieLabel{
+display:none;
+padding:15px;
+font-size:32px;
+border-radius:8px;
+margin-top:20px;
+opacity: 100%;
+}
+
+/* CELEBRATION */
+
+#celebrationPage{display:none;}
+
+#celebrateText{
+font-size:32px;
+margin-bottom:40px;
+}
+
+/* CAKE */
+
+.cake{
+position:relative;
+width:250px;
+height:200px;
+margin:auto;
+}
+
+.plate{
+width:270px;
+height:110px;
+position:absolute;
+bottom:-10px;
+left:-10px;
+background:#ccc;
+border-radius:50%;
+}
+
+.layer{
+position:absolute;
+width:250px;
+height:100px;
+border-radius:50%;
+background:#553c13;
+}
+
+.layer-top{top:0;}
+.layer-middle{top:33px;}
+.layer-bottom{top:66px;}
+
+.icing{
+position:absolute;
+top:2px;
+left:5px;
+width:240px;
+height:90px;
+background:#f0e4d0;
+border-radius:50%;
+}
+
+.drip{
+position:absolute;
+background:#f0e4d0;
+width:50px;
+height:60px;
+border-bottom-left-radius:25px;
+border-bottom-right-radius:25px;
+}
+
+.drip1{top:53px;left:5px;}
+.drip2{top:69px;left:181px;}
+.drip3{top:54px;left:90px;width:80px;}
+
+.candle{
+position:absolute;
+background:#7B020B;
+width:16px;
+height:50px;
+border-radius:8px;
+top:-20px;
+left:50%;
+margin-left:-8px;
+}
+
+.flame{
+position:absolute;
+background:orange;
+width:15px;
+height:35px;
+border-radius:10px;
+top:-34px;
+left:50%;
+margin-left:-7px;
+box-shadow:0 0 20px orange;
+animation:flicker 1s infinite alternate;
+}
+
+@keyframes flicker{
+0%{transform:skewX(5deg);}
+100%{transform:skewX(-5deg);}
+}
+
+/* CUT BUTTON */
+
+#cutCakeBtn{
+display:none;
+margin-top:30px;
+background:#ff5e78;
+color:white;
+padding:14px 30px;
+font-size:20px;
+border-radius:10px;
+}
+
+/* BALLOONS */
+
+.balloon{
+position:fixed;
+bottom:-100px;
+width:50px;
+height:70px;
+border-radius:50%;
+animation:floatUp 6s linear forwards;
+}
+
+.balloon::after{
+content:"";
+position:absolute;
+width:2px;
+height:40px;
+background:#555;
+left:50%;
+top:70px;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-900px);opacity:0;}
+}
+
+.bg1{
+background-image:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("bg1.jpg");
+
+background-size:cover;
+background-position:center 35%;
+background-repeat:no-repeat;
+}
+.bg2{
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("bg2.jpg") center/cover no-repeat;
+}
+
+.bg3{
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("bg3.jpg");
+background-size:cover;
+background-position:center 40%;
+background-repeat:no-repeat;
+opacity: 75%;
+}
+
+.bg4{
+background:
+linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+url("bg1.jpg") center/cover no-repeat;
+}
+
+</style>
+</head>
+
+<body class="bg1">
+
+<div id="hello">
+<h1>Hello Soumya 👋</h1>
+<p>Just a small surprise for you</p>
+<div id="countdownCircle">5</div>
+</div>
+
+<div id="videoPage">
+<h2>Didn't want to disappoint appa this time 😂</h2>
+
+<video controls>
+<source src="abcd.mp4" type="video/mp4">
+</video>
+
+<br><br>
+
+<button id="continueBtn" style="display:none;">
+Please continue madam →
+</button>
+
+</div>
+
+<div id="questionPage" style="display:none;">
+<div id="questionBox">
+<h2>Are you a monkey? 🐒</h2>
+<button id="yes">Yes</button>
+<button id="no">No</button>
+</div>
+<div id="lieLabel"></div>
+</div>
+
+<div id="celebrationPage">
+
+<h2 id="celebrateText">Wear your birthday hat 🎉</h2>
+
+<div class="cake">
+<div class="plate"></div>
+<div class="layer layer-bottom"></div>
+<div class="layer layer-middle"></div>
+<div class="layer layer-top"></div>
+<div class="icing"></div>
+<div class="drip drip1"></div>
+<div class="drip drip2"></div>
+<div class="drip drip3"></div>
+
+<div class="candle">
+<div class="flame"></div>
+</div>
+</div>
+
+<button id="cutCakeBtn">Cut the Cake 🎂</button>
+<div id="finalMessage" style="display:none;margin-top:30px;font-size:22px;line-height:1.8;max-width:700px;margin-left:auto;margin-right:auto;white-space:pre-line;">
+<span id="typingText"></span>
+</div>
+
+</div>
+
+<audio id="softMusic" src="soft-birthday.mp3" loop></audio>
+<audio id="birthdaySong" src="happy-birthday.mp3"></audio>
+
+<script>
+
+let hello=document.getElementById("hello")
+let countdown=document.getElementById("countdownCircle")
+let videoPage=document.getElementById("videoPage")
+let questionPage=document.getElementById("questionPage")
+let continueBtn=document.getElementById("continueBtn")
+
+let noBtn=document.getElementById("no")
+let questionBox=document.getElementById("questionBox")
+let lieLabel=document.getElementById("lieLabel")
+
+let celebrationPage=document.getElementById("celebrationPage")
+let celebrateText=document.getElementById("celebrateText")
+let cutCakeBtn=document.getElementById("cutCakeBtn")
+
+
+let softMusic=document.getElementById("softMusic")
+let music=document.getElementById("birthdaySong")
+
+/* COUNTDOWN */
+
+let count=5
+
+let timer=setInterval(()=>{
+
+count--
+countdown.innerText=count
+
+if(count===0){
+
+clearInterval(timer)
+
+hello.style.display="none"
+videoPage.style.display="block"
+
+document.body.className="bg2"
+
+}
+
+},1000)
+
+/* SHOW CONTINUE BUTTON AFTER 5s */
+
+setTimeout(()=>{
+continueBtn.style.display="inline-block"
+},5000)
+
+/* CONTINUE BUTTON */
+
+continueBtn.onclick=function(){
+
+videoPage.style.display="none"
+questionPage.style.display="block"
+
+document.body.className="bg3"
+
+}
+
+/* NO BUTTON MOVE */
+
+let movedOnce=false
+
+noBtn.addEventListener("mouseover",function(){
+
+if(!movedOnce){
+
+let x = Math.random() * (window.innerWidth - 120)
+let y = Math.random() * (window.innerHeight - 120)
+
+if(x < 50) x = 50
+if(y < 100) y = 100
+
+noBtn.style.position="absolute"
+noBtn.style.left=x+"px"
+noBtn.style.top=y+"px"
+
+movedOnce=true
+
+}
+
+})
+
+/* NO CLICK */
+
+noBtn.onclick=function(){
+
+questionBox.style.display="none"
+
+lieLabel.style.display="block"
+lieLabel.innerHTML="Don't lie 😏"
+
+setTimeout(()=>{
+
+lieLabel.innerHTML="Okay okay...<br><br>Since it is your birthday<br><br>I will believe you 😌<br><br>Now Let's Celebrate!!!!"
+
+setTimeout(startCelebration,3000)
+
+},2000)
+
+}
+
+/* START CELEBRATION */
+
+function startCelebration(){
+
+questionPage.style.display="none"
+celebrationPage.style.display="block"
+
+document.body.className="bg4"
+
+softMusic.play()
+
+setTimeout(()=>{
+celebrateText.innerHTML="Make a wish 🤫<br>(Don't wish for a boyfriend 😂)"
+},3000)
+
+setTimeout(()=>{
+celebrateText.innerHTML="Blow the candles 🎂"
+startMicBlowDetection()
+},6000)
+
+}
+
+/* MIC DETECT */
+
+function startMicBlowDetection(){
+
+navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+
+const audioContext=new AudioContext()
+const mic=audioContext.createMediaStreamSource(stream)
+const analyser=audioContext.createAnalyser()
+
+mic.connect(analyser)
+
+const data=new Uint8Array(analyser.frequencyBinCount)
+
+function detect(){
+
+analyser.getByteFrequencyData(data)
+
+let volume=data.reduce((a,b)=>a+b)/data.length
+
+if(volume>40){
+blowCandles()
+return
+}
+
+requestAnimationFrame(detect)
+
+}
+
+detect()
+
+})
+
+}
+
+/* BLOW CANDLES */
+
+function blowCandles(){
+
+document.querySelector(".flame").style.display="none"
+
+celebrateText.innerHTML="Candles blown! 🎉"
+
+setTimeout(()=>{
+cutCakeBtn.style.display="inline-block"
+celebrateText.innerHTML="Let's cut the cake 🍰"
+},2000)
+
+}
+
+/* BALLOONS */
+
+function launchBalloons(){
+
+for(let i=0;i<15;i++){
+
+let balloon=document.createElement("div")
+balloon.className="balloon"
+
+let colors=["#ff4d6d","#ffbe0b","#3a86ff","#fb5607","#8338ec"]
+
+balloon.style.background=colors[Math.floor(Math.random()*colors.length)]
+balloon.style.left=Math.random()*window.innerWidth+"px"
+
+document.body.appendChild(balloon)
+
+setTimeout(()=>balloon.remove(),6000)
+
+}
+
+}
+
+/* CUT CAKE */
+let message = "Wishing you many more happy returns of the day 🎉\n\nCouldn't be there to celebrate with you this year.\nI hope you enjoy this day and have an amazing year ahead.\n\nKeep smiling the way you always do 😊";
+
+cutCakeBtn.onclick=function(){
+
+celebrateText.innerHTML="🎉 Happy Birthday Soumya 🎉"
+
+softMusic.pause()
+music.play()
+
+confetti({
+particleCount:300,
+spread:120
+})
+
+launchBalloons()
+
+setTimeout(()=>{
+
+document.getElementById("finalMessage").style.display="block"
+
+typeMessage()
+
+},3000)
+
+}
+function typeMessage(){
+
+let textElement = document.getElementById("typingText")
+let i = 0
+
+function typing(){
+
+if(i < message.length){
+
+textElement.textContent += message.charAt(i)
+
+i++
+
+setTimeout(typing,30)
+
+}
+
+}
+
+typing()
+
+}
+</script>
+
+</body>
+</html>
