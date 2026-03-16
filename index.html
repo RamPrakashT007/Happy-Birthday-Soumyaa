@@ -44,7 +44,16 @@ letter-spacing:0.5px;
 
 /* CENTER CONTENT */
 
-#hello,#videoPage,#questionPage,#celebrationPage{
+#hello{
+position:absolute;
+top:90%;
+left:50%;
+transform:translate(-50%,-50%);
+width:90%;
+max-width:600px;
+}
+
+#videoPage,#questionPage,#celebrationPage{
 position:absolute;
 top:50%;
 left:50%;
@@ -52,7 +61,6 @@ transform:translate(-50%,-50%);
 width:90%;
 max-width:600px;
 }
-
 /* HELLO */
 #continueBtn{
 margin-top:25px;
@@ -268,7 +276,11 @@ opacity: 75%;
 .bg4{
 background:
 linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
-url("bg1.jpg") center/cover no-repeat;
+url("bg1.jpg"); 
+background-size:cover;
+background-position:center 35%;
+background-repeat:no-repeat;
+
 }
 .bg1{
 background:
@@ -280,7 +292,7 @@ url("bg5.jpg") center/cover no-repeat;
 
 .bg1{
 background:
-linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+linear-gradient(rgba(0,0,0,.45),rgba(241, 214, 214, 0.45)),
 url("bg5.jpg") center/cover no-repeat;
 }
 
