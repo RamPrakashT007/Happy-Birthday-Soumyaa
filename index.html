@@ -279,7 +279,14 @@ background:
 linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
 url("bg1.jpg") center/cover no-repeat;
 }
+@media (max-width:768px){
 
+  .bg1{
+    background-position:center top;
+    background-size:cover;
+  }
+
+}
 </style>
 </head>
 
@@ -412,7 +419,7 @@ if(!movedOnce){
 
 let yesRect = document.getElementById("yes").getBoundingClientRect()
 
-let x = yesRect.left + 100
+let x = yesRect.left + 80
 let y = yesRect.top + 5
 
 noBtn.style.position = "fixed"
