@@ -412,8 +412,8 @@ if(!movedOnce){
 
 let yesRect = document.getElementById("yes").getBoundingClientRect()
 
-let x = yesRect.left + 120
-let y = yesRect.top + 40
+let x = yesRect.left + 100
+let y = yesRect.top + 20
 
 noBtn.style.position = "fixed"
 noBtn.style.left = x + "px"
@@ -461,7 +461,16 @@ celebrateText.innerHTML="Make a wish 🤫<br>(Don't wish for a boyfriend 😂)"
 
 setTimeout(()=>{
 celebrateText.innerHTML="Blow the candles 🎂"
+
 startMicBlowDetection()
+
+// fallback if mic doesn't detect
+setTimeout(()=>{
+if(document.querySelector(".flame").style.display !== "none"){
+blowCandles()
+}
+},3000)
+
 },6000)
 
 }
